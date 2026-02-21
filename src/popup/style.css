@@ -1,0 +1,104 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply w-80 bg-neutral-50 font-sans text-sm text-neutral-800;
+  margin: 0;
+  padding: 0;
+}
+
+#app {
+  @apply flex flex-col gap-3 p-4;
+}
+
+.header h1 {
+  @apply text-base font-semibold text-neutral-900;
+  margin: 0;
+}
+
+.card {
+  @apply rounded-xl bg-white p-3 shadow-sm;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.card-title {
+  @apply mb-2 text-xs font-medium uppercase tracking-wide text-neutral-500;
+  margin-top: 0;
+}
+
+.label {
+  @apply mb-1 block text-xs font-medium text-neutral-600;
+}
+
+.select {
+  @apply w-full rounded-lg border border-neutral-200 bg-white px-3 py-1.5 text-sm;
+  @apply focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400;
+}
+
+.input {
+  @apply w-full rounded-lg border border-neutral-200 bg-white px-3 py-1.5 text-sm;
+  @apply focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400;
+  box-sizing: border-box;
+}
+
+.input-sm {
+  @apply mb-1 text-xs;
+}
+
+.hint {
+  @apply mt-1 text-xs text-neutral-400;
+  margin-bottom: 0;
+}
+
+.btn {
+  @apply inline-flex items-center justify-center rounded-lg border px-3 py-1.5 text-xs font-medium;
+  @apply cursor-pointer transition-colors;
+}
+
+.btn-primary {
+  @apply border-blue-500 bg-blue-500 text-white;
+  @apply hover:bg-blue-600;
+}
+
+.btn-danger {
+  @apply border-red-300 bg-white text-red-500;
+  @apply hover:bg-red-50;
+}
+
+.btn-sm {
+  @apply px-2 py-1 text-xs;
+}
+
+.mapping-row {
+  @apply mb-2 flex items-start gap-1;
+}
+
+.mapping-fields {
+  @apply flex flex-1 flex-col gap-0;
+}
+
+.mapping-fields .input {
+  @apply w-full;
+}
+
+.input-error {
+  @apply border-red-400;
+}
+
+.field-error {
+  @apply text-xs text-red-500 mb-1;
+}
+
+.toggle-row {
+  @apply flex items-center justify-between py-1;
+  cursor: pointer;
+}
+
+.toggle-row span {
+  @apply text-sm text-neutral-700;
+}
+
+.toggle-row input[type="checkbox"] {
+  @apply h-4 w-4 rounded accent-blue-500;
+}
