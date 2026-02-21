@@ -5,8 +5,12 @@ export const IDE_CONFIGS: Record<IDEKey, IDEConfig> = {
   vscode: {
     key: "vscode",
     label: "VS Code",
-    generateURL: (absPath, line) =>
-      line ? `vscode://file/${absPath}:${line}` : `vscode://file/${absPath}`,
+    generateURL: (absPath, line) => {
+      const encoded = encodeURIComponent(absPath);
+      return line
+        ? `vscode://file/${encoded}:${line}`
+        : `vscode://file/${encoded}`;
+    },
   },
   goland: {
     key: "goland",
