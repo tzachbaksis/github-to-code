@@ -16,8 +16,8 @@ A Chrome extension that adds **"Open in IDE"** buttons to GitHub, letting you ju
 
 ## Supported IDEs
 
-- VS Code
-- GoLand
+- [VS Code](https://code.visualstudio.com/)
+- [GoLand](https://www.jetbrains.com/go/)
 
 ## Installation
 

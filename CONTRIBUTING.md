@@ -4,8 +4,8 @@ Thanks for your interest in contributing!
 
 ## Prerequisites
 
-- Node.js 20+
-- npm
+- Node.js 20 or later
+- npm 9+
 
 ## Setup
 
