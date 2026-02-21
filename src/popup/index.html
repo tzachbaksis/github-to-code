@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GitHub to Code</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <header class="header">
+        <h1>GitHub to Code</h1>
+      </header>
+
+      <section class="card">
+        <label class="label" for="ide-select">IDE</label>
+        <select id="ide-select" class="select"></select>
+      </section>
+
+      <section class="card">
+        <h2 class="card-title">Repo Mappings</h2>
+        <div id="mappings-list"></div>
+        <button id="add-mapping" class="btn btn-primary">+ Add Mapping</button>
+      </section>
+
+      <section class="card">
+        <h2 class="card-title">Display</h2>
+        <label class="toggle-row">
+          <span>Show on file headers</span>
+          <input type="checkbox" id="show-headers" />
+        </label>
+        <label class="toggle-row">
+          <span>Show on line numbers</span>
+          <input type="checkbox" id="show-lines" />
+        </label>
+      </section>
+    </div>
+    <script type="module" src="./index.ts"></script>
+  </body>
+</html>
