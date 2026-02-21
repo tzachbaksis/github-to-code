@@ -1,0 +1,37 @@
+{
+  "manifest_version": 3,
+  "name": "GitHub to Code",
+  "description": "Open GitHub files in your IDE with one click",
+  "version": "0.1.0",
+  "author": "Tzach Baksis",
+  "homepage_url": "https://github.com/tzach-baksis/github-to-code",
+  "minimum_chrome_version": "110",
+  "permissions": ["storage"],
+  "content_scripts": [
+    {
+      "matches": ["https://github.com/*"],
+      "js": ["src/content/index.js"],
+      "css": ["src/content/index.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "background": {
+    "service_worker": "src/background/service-worker.js"
+  },
+  "action": {
+    "default_popup": "src/popup/index.html",
+    "default_icon": {
+      "16": "assets/logo/icon-16.png",
+      "48": "assets/logo/icon-48.png",
+      "128": "assets/logo/icon-128.png"
+    }
+  },
+  "icons": {
+    "16": "assets/logo/icon-16.png",
+    "48": "assets/logo/icon-48.png",
+    "128": "assets/logo/icon-128.png"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  }
+}
