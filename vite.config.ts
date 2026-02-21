@@ -99,7 +99,6 @@ function staticConfig() {
       viteStaticCopy({
         targets: [
           { src: "public/manifest.json", dest: "." },
-          { src: "src/assets/logo/*", dest: "assets/logo" },
         ],
       }),
     ],
