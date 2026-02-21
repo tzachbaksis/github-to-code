@@ -16,6 +16,8 @@
     "dev": "npm run build -- --watch",
     "build": "tsc --noEmit && BUILD_ENTRY=static vite build && BUILD_ENTRY=content vite build && BUILD_ENTRY=popup vite build && BUILD_ENTRY=service-worker vite build",
     "test": "vitest run",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "preview": "vite preview"
   },
   "devDependencies": {

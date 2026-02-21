@@ -3,7 +3,11 @@ import { IDE_CONFIGS } from "../shared/ide-protocols";
 import { findMapping } from "../shared/storage";
 import { GHC_BUTTON_CLASS } from "../shared/constants";
 import { getDiffFiles, getLineNumberElements } from "./dom-utils";
-import { createIDEButton, injectFileHeaderIcon, injectLineIcon } from "./icon-injector";
+import {
+  createIDEButton,
+  injectFileHeaderIcon,
+  injectLineIcon,
+} from "./icon-injector";
 
 export function initFilesChanged(
   settings: ExtensionSettings,
@@ -25,11 +29,7 @@ export function initFilesChanged(
         `.${GHC_BUTTON_CLASS}.ghc-ide-btn--header`,
       );
       if (!existingHeaderBtn) {
-        const headerBtn = createIDEButton(
-          context,
-          ideConfig,
-          mapping,
-        );
+        const headerBtn = createIDEButton(context, ideConfig, mapping);
         if (headerBtn) {
           injectFileHeaderIcon(anchor, headerBtn);
         }
@@ -47,11 +47,7 @@ export function initFilesChanged(
           ...context,
           lineNumber: line,
         };
-        const lineBtn = createIDEButton(
-          lineContext,
-          ideConfig,
-          mapping,
-        );
+        const lineBtn = createIDEButton(lineContext, ideConfig, mapping);
         if (lineBtn) {
           injectLineIcon(el, lineBtn);
         }

@@ -14,12 +14,7 @@ const MAX_ANCESTOR_DEPTH = 20;
  */
 const MAX_FALLBACK_DEPTH = 15;
 
-export type PageType =
-  | "files-changed"
-  | "blob"
-  | "blame"
-  | "tree"
-  | "unknown";
+export type PageType = "files-changed" | "blob" | "blame" | "tree" | "unknown";
 
 export function detectPageType(): PageType {
   const path = window.location.pathname;
@@ -109,9 +104,8 @@ export function getDiffFiles(): DiffFile[] {
   // Strategy 3: Scan ALL div[id^="diff-"] containers directly.
   // This catches files with "Load Diff" (no td cells yet) and any other
   // files missed by previous strategies.
-  const diffSections = document.querySelectorAll<HTMLElement>(
-    "div[id^='diff-']",
-  );
+  const diffSections =
+    document.querySelectorAll<HTMLElement>("div[id^='diff-']");
   for (const section of diffSections) {
     const filePath = extractFilePathFromSection(section);
     if (!filePath || seenPaths.has(filePath)) continue;
@@ -237,9 +231,7 @@ function extractFilePathFromSection(section: HTMLElement): string | null {
       return ltrMatch[1];
     }
     // Fallback: extract between "Collapse file" and "Copy file name"
-    const textMatch = text.match(
-      /Collapse file\s*(.+?)\s*Copy file name/,
-    );
+    const textMatch = text.match(/Collapse file\s*(.+?)\s*Copy file name/);
     if (textMatch && textMatch[1].includes("/")) {
       return textMatch[1].trim();
     }
@@ -299,8 +291,10 @@ function findFileNameElement(container: HTMLElement): HTMLElement | null {
     return diffHeader;
   }
 
-  return container.querySelector<HTMLElement>(".Truncate a") ||
-    container.querySelector<HTMLElement>("copilot-diff-entry");
+  return (
+    container.querySelector<HTMLElement>(".Truncate a") ||
+    container.querySelector<HTMLElement>("copilot-diff-entry")
+  );
 }
 
 export interface LineInfo {

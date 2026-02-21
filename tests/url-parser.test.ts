@@ -76,7 +76,9 @@ describe("parseGitHubURL", () => {
 
   it("returns null for non-matching URLs", () => {
     expect(parseGitHubURL("https://github.com/facebook/react")).toBeNull();
-    expect(parseGitHubURL("https://github.com/facebook/react/pulls")).toBeNull();
+    expect(
+      parseGitHubURL("https://github.com/facebook/react/pulls"),
+    ).toBeNull();
     expect(parseGitHubURL("https://example.com/blob/main/file.ts")).toBeNull();
   });
 
