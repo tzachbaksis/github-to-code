@@ -5,14 +5,12 @@ export const IDE_CONFIGS: Record<IDEKey, IDEConfig> = {
   vscode: {
     key: "vscode",
     label: "VS Code",
-    icon: "vscode.svg",
     generateURL: (absPath, line) =>
       line ? `vscode://file/${absPath}:${line}` : `vscode://file/${absPath}`,
   },
   goland: {
     key: "goland",
     label: "GoLand",
-    icon: "goland.svg",
     generateURL: (absPath, line) =>
       line
         ? `goland://open?file=${encodeURIComponent(absPath)}&line=${line}`

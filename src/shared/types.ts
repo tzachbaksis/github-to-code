@@ -3,7 +3,6 @@ export type IDEKey = "vscode" | "goland";
 export interface IDEConfig {
   key: IDEKey;
   label: string;
-  icon: string;
   generateURL: (absPath: string, line?: number) => string;
 }
 
