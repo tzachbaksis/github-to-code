@@ -1,4 +1,9 @@
-import type { IDEConfig, IDEKey, GitHubFileContext, RepoMapping } from "./types";
+import type {
+  IDEConfig,
+  IDEKey,
+  GitHubFileContext,
+  RepoMapping,
+} from "./types";
 import { sanitizePath } from "./path-sanitizer";
 
 export const IDE_CONFIGS: Record<IDEKey, IDEConfig> = {

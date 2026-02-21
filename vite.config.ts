@@ -97,9 +97,7 @@ function staticConfig() {
         },
       } satisfies Plugin,
       viteStaticCopy({
-        targets: [
-          { src: "public/manifest.json", dest: "." },
-        ],
+        targets: [{ src: "public/manifest.json", dest: "." }],
       }),
     ],
   });

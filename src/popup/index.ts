@@ -8,7 +8,9 @@ import {
 
 const ideSelect = document.getElementById("ide-select") as HTMLSelectElement;
 const mappingsList = document.getElementById("mappings-list") as HTMLElement;
-const addMappingBtn = document.getElementById("add-mapping") as HTMLButtonElement;
+const addMappingBtn = document.getElementById(
+  "add-mapping",
+) as HTMLButtonElement;
 const showHeadersCheck = document.getElementById(
   "show-headers",
 ) as HTMLInputElement;
