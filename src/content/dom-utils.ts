@@ -1,5 +1,19 @@
 import { SELECTORS } from "../shared/constants";
 
+/**
+ * Max depth when walking up the DOM to find a diff section ancestor.
+ * GitHub's diff DOM nests line-number cells ~10-15 levels deep; 20 gives
+ * comfortable headroom without risking an expensive full-document walk.
+ */
+const MAX_ANCESTOR_DEPTH = 20;
+
+/**
+ * Max depth for the fallback ancestor search (querySelector-based).
+ * Slightly lower than MAX_ANCESTOR_DEPTH because each iteration runs
+ * multiple querySelectorAll calls, so we keep it tighter for performance.
+ */
+const MAX_FALLBACK_DEPTH = 15;
+
 export type PageType =
   | "files-changed"
   | "blob"
@@ -133,7 +147,7 @@ function findDiffSectionByHash(
   hash: string,
 ): HTMLElement | null {
   let el: HTMLElement | null = cell;
-  for (let i = 0; i < 20 && el; i++) {
+  for (let i = 0; i < MAX_ANCESTOR_DEPTH && el; i++) {
     // Check if this element's id contains the hash
     if (el.id && el.id.includes(hash)) {
       return el;
@@ -152,7 +166,7 @@ function findDiffSectionByHash(
   // Fallback: walk up to find any ancestor that contains both
   // the file header area and the diff table
   el = cell;
-  for (let i = 0; i < 15 && el; i++) {
+  for (let i = 0; i < MAX_FALLBACK_DEPTH && el; i++) {
     if (
       el.querySelector(SELECTORS.filesChanged.lineNumberCell) &&
       (el.querySelector("[data-file-path]") ||
