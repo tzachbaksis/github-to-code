@@ -1,5 +1,4 @@
 import { SELECTORS } from "../shared/constants";
-import { isValidFilePath } from "../shared/path-sanitizer";
 
 /**
  * Max depth when walking up the DOM to find a diff section ancestor.
@@ -184,27 +183,16 @@ function findDiffSectionByHash(
 }
 
 /**
- * Validate and return a candidate file path, or null if it looks suspicious.
- */
-function validateCandidate(path: string | null | undefined): string | null {
-  if (!path) return null;
-  return isValidFilePath(path) ? path : null;
-}
-
-/**
  * Extract a file path from a diff section container.
- * All candidates are validated before being returned.
  */
 function extractFilePathFromSection(section: HTMLElement): string | null {
   // Try data attributes first
   const dataFilePath = section.querySelector<HTMLElement>("[data-file-path]");
   if (dataFilePath) {
-    return validateCandidate(dataFilePath.getAttribute("data-file-path"));
+    return dataFilePath.getAttribute("data-file-path");
   }
 
-  const tagsearchPath = validateCandidate(
-    section.getAttribute("data-tagsearch-path"),
-  );
+  const tagsearchPath = section.getAttribute("data-tagsearch-path");
   if (tagsearchPath) return tagsearchPath;
 
   // Try to find a link whose href contains /blob/ or /tree/
@@ -215,29 +203,23 @@ function extractFilePathFromSection(section: HTMLElement): string | null {
     const href = blobLink.getAttribute("href") || "";
     // Extract path after /blob/{ref}/ or /tree/{ref}/
     const match = href.match(/\/(?:blob|tree)\/[^/]+\/(.+)/);
-    if (match) {
-      const candidate = validateCandidate(match[1]);
-      if (candidate) return candidate;
-    }
+    if (match) return match[1];
   }
 
   // Try title attributes on links
   const titleLink = section.querySelector<HTMLElement>("a[title]");
   if (titleLink) {
     const title = titleLink.getAttribute("title");
-    if (title && title.includes("/")) {
-      const candidate = validateCandidate(title);
-      if (candidate) return candidate;
-    }
+    if (title && title.includes("/")) return title;
   }
 
   // Try copilot-diff-entry
   const copilot = section.querySelector<HTMLElement>("copilot-diff-entry");
   if (copilot) {
-    return validateCandidate(
+    return (
       copilot.getAttribute("data-file-path") ||
       copilot.getAttribute("data-path") ||
-      copilot.getAttribute("path"),
+      copilot.getAttribute("path")
     );
   }
 
@@ -252,15 +234,14 @@ function extractFilePathFromSection(section: HTMLElement): string | null {
     // Try extracting between LTR marks (U+200E)
     const ltrMatch = text.match(/\u200E([^\u200E]+)\u200E/);
     if (ltrMatch && ltrMatch[1].includes("/")) {
-      const candidate = validateCandidate(ltrMatch[1]);
-      if (candidate) return candidate;
+      return ltrMatch[1];
     }
     // Fallback: extract between "Collapse file" and "Copy file name"
     const textMatch = text.match(
       /Collapse file\s*(.+?)\s*Copy file name/,
     );
     if (textMatch && textMatch[1].includes("/")) {
-      return validateCandidate(textMatch[1].trim());
+      return textMatch[1].trim();
     }
   }
 

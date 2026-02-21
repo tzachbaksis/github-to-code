@@ -28,12 +28,5 @@ export function buildIDELink(
   ideConfig: IDEConfig,
 ): string {
   const absPath = sanitizePath(mapping.localPath, context.filePath);
-  const url = ideConfig.generateURL(absPath, context.lineNumber);
-
-  // Guard against header injection / malformed URLs from crafted paths
-  if (/[\r\n]/.test(url)) {
-    throw new Error("Generated URL contains newline characters");
-  }
-
-  return url;
+  return ideConfig.generateURL(absPath, context.lineNumber);
 }
