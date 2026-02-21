@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "GitHub to Code",
   "description": "Open GitHub files in your IDE with one click",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "author": "Tzach Baksis",
   "homepage_url": "https://github.com/tzach-baksis/github-to-code",
   "minimum_chrome_version": "110",
