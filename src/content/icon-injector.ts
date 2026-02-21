@@ -1,4 +1,8 @@
-import type { GitHubFileContext, IDEConfig, RepoMapping } from "../shared/types";
+import type {
+  GitHubFileContext,
+  IDEConfig,
+  RepoMapping,
+} from "../shared/types";
 import { buildIDELink } from "../shared/ide-protocols";
 import { GHC_BUTTON_CLASS } from "../shared/constants";
 import { isAllowedURL } from "../shared/validation";
@@ -84,14 +88,18 @@ export function createIDEButton(
     link.setAttribute("data-ghc-line", String(context.lineNumber));
   }
 
-  link.addEventListener("click", (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    e.stopImmediatePropagation();
-    if (isAllowedURL(url)) {
-      window.location.href = url;
-    }
-  }, true);
+  link.addEventListener(
+    "click",
+    (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+      if (isAllowedURL(url)) {
+        window.location.href = url;
+      }
+    },
+    true,
+  );
 
   return link;
 }
@@ -108,10 +116,7 @@ export function injectFileHeaderIcon(
   anchor.parentElement?.insertBefore(button, anchor.nextSibling);
 }
 
-export function injectLineIcon(
-  lineEl: HTMLElement,
-  button: HTMLElement,
-): void {
+export function injectLineIcon(lineEl: HTMLElement, button: HTMLElement): void {
   button.classList.add("ghc-ide-btn--line");
   lineEl.style.position = "relative";
   lineEl.appendChild(button);

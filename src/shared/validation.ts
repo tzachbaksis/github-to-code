@@ -1,10 +1,7 @@
 import type { ExtensionSettings, IDEKey, RepoMapping } from "./types";
 import { DEFAULT_SETTINGS } from "./constants";
 
-const ALLOWED_PROTOCOLS = [
-  "vscode:",
-  "goland:",
-];
+const ALLOWED_PROTOCOLS = ["vscode:", "goland:"];
 
 const VALID_IDE_KEYS: ReadonlySet<string> = new Set<string>([
   "vscode",
@@ -23,18 +20,23 @@ export function isAllowedURL(url: string): boolean {
   }
 }
 
-export function validateSettings(raw: Record<string, unknown>): ExtensionSettings {
-  const ide = typeof raw.ide === "string" && VALID_IDE_KEYS.has(raw.ide)
-    ? (raw.ide as IDEKey)
-    : DEFAULT_SETTINGS.ide;
+export function validateSettings(
+  raw: Record<string, unknown>,
+): ExtensionSettings {
+  const ide =
+    typeof raw.ide === "string" && VALID_IDE_KEYS.has(raw.ide)
+      ? (raw.ide as IDEKey)
+      : DEFAULT_SETTINGS.ide;
 
-  const showOnFileHeaders = typeof raw.showOnFileHeaders === "boolean"
-    ? raw.showOnFileHeaders
-    : DEFAULT_SETTINGS.showOnFileHeaders;
+  const showOnFileHeaders =
+    typeof raw.showOnFileHeaders === "boolean"
+      ? raw.showOnFileHeaders
+      : DEFAULT_SETTINGS.showOnFileHeaders;
 
-  const showOnLineNumbers = typeof raw.showOnLineNumbers === "boolean"
-    ? raw.showOnLineNumbers
-    : DEFAULT_SETTINGS.showOnLineNumbers;
+  const showOnLineNumbers =
+    typeof raw.showOnLineNumbers === "boolean"
+      ? raw.showOnLineNumbers
+      : DEFAULT_SETTINGS.showOnLineNumbers;
 
   const mappings = Array.isArray(raw.mappings)
     ? raw.mappings.filter(isValidMapping)
