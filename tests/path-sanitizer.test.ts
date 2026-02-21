@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { sanitizePath } from "../src/shared/path-sanitizer";
+import { sanitizePath, isValidFilePath } from "../src/shared/path-sanitizer";
 
 describe("sanitizePath", () => {
   it("joins base and relative path correctly", () => {
@@ -44,8 +44,14 @@ describe("sanitizePath", () => {
     expect(() => sanitizePath("/pro\0ject", "file.ts")).toThrow("null bytes");
   });
 
-  it("rejects control characters", () => {
+  it("rejects control characters in relative path", () => {
     expect(() => sanitizePath("/project", "file\x01.ts")).toThrow(
+      "control characters",
+    );
+  });
+
+  it("rejects control characters in base path", () => {
+    expect(() => sanitizePath("/proj\x07ect", "file.ts")).toThrow(
       "control characters",
     );
   });
@@ -60,5 +66,55 @@ describe("sanitizePath", () => {
     expect(sanitizePath("/project", "./src/file.ts")).toBe(
       "/project/./src/file.ts",
     );
+  });
+
+  it("rejects percent-encoded traversal (%2e%2e)", () => {
+    expect(() => sanitizePath("/project", "%2e%2e/etc/passwd")).toThrow(
+      "directory traversal",
+    );
+  });
+
+  it("rejects percent-encoded null bytes (%00)", () => {
+    expect(() => sanitizePath("/project", "file%00.ts")).toThrow("null bytes");
+  });
+
+  it("rejects percent-encoded traversal in base path", () => {
+    expect(() => sanitizePath("/project/%2e%2e", "file.ts")).toThrow(
+      "directory traversal",
+    );
+  });
+});
+
+describe("isValidFilePath", () => {
+  it("accepts normal relative paths", () => {
+    expect(isValidFilePath("src/index.ts")).toBe(true);
+    expect(isValidFilePath("a/b/c/file.go")).toBe(true);
+    expect(isValidFilePath(".eslintrc.json")).toBe(true);
+  });
+
+  it("rejects empty paths", () => {
+    expect(isValidFilePath("")).toBe(false);
+  });
+
+  it("rejects paths with ..", () => {
+    expect(isValidFilePath("../etc/passwd")).toBe(false);
+    expect(isValidFilePath("src/../../etc/passwd")).toBe(false);
+  });
+
+  it("rejects paths with null bytes", () => {
+    expect(isValidFilePath("file\0.ts")).toBe(false);
+  });
+
+  it("rejects paths with control characters", () => {
+    expect(isValidFilePath("file\x01.ts")).toBe(false);
+  });
+
+  it("rejects paths with percent-encoded sequences", () => {
+    expect(isValidFilePath("src/%2e%2e/etc/passwd")).toBe(false);
+    expect(isValidFilePath("file%00.ts")).toBe(false);
+  });
+
+  it("rejects paths exceeding 1024 characters", () => {
+    expect(isValidFilePath("a/".repeat(513))).toBe(false);
   });
 });

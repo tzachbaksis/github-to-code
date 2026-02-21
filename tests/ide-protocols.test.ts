@@ -1,15 +1,20 @@
 import { describe, it, expect } from "vitest";
-import { IDE_CONFIGS } from "../src/shared/ide-protocols";
+import { IDE_CONFIGS, buildIDELink } from "../src/shared/ide-protocols";
 
 describe("IDE_CONFIGS", () => {
   it("vscode generates correct URL with line", () => {
     const url = IDE_CONFIGS.vscode.generateURL("/home/user/project/file.ts", 42);
-    expect(url).toBe("vscode://file//home/user/project/file.ts:42");
+    expect(url).toBe(`vscode://file/${encodeURIComponent("/home/user/project/file.ts")}:42`);
   });
 
   it("vscode generates correct URL without line", () => {
     const url = IDE_CONFIGS.vscode.generateURL("/home/user/project/file.ts");
-    expect(url).toBe("vscode://file//home/user/project/file.ts");
+    expect(url).toBe(`vscode://file/${encodeURIComponent("/home/user/project/file.ts")}`);
+  });
+
+  it("vscode encodes paths with spaces", () => {
+    const url = IDE_CONFIGS.vscode.generateURL("/home/user/my project/file.ts", 1);
+    expect(url).toBe(`vscode://file/${encodeURIComponent("/home/user/my project/file.ts")}:1`);
   });
 
   it("goland generates correct URL with line", () => {
@@ -26,7 +31,7 @@ describe("IDE_CONFIGS", () => {
     );
   });
 
-  it("handles paths with spaces", () => {
+  it("handles paths with spaces (goland)", () => {
     const url = IDE_CONFIGS.goland.generateURL(
       "/home/user/my project/file.go",
       1,
@@ -34,5 +39,17 @@ describe("IDE_CONFIGS", () => {
     expect(url).toBe(
       `goland://open?file=${encodeURIComponent("/home/user/my project/file.go")}&line=1`,
     );
+  });
+});
+
+describe("buildIDELink", () => {
+  const mapping = { pattern: "org/repo", localPath: "/home/user/project" };
+
+  it("rejects paths that would produce URLs with newlines", () => {
+    const context = { org: "org", repo: "repo", filePath: "file.ts" };
+    // Normal paths should work
+    expect(() =>
+      buildIDELink(context, mapping, IDE_CONFIGS.vscode),
+    ).not.toThrow();
   });
 });

@@ -5,8 +5,12 @@ export const IDE_CONFIGS: Record<IDEKey, IDEConfig> = {
   vscode: {
     key: "vscode",
     label: "VS Code",
-    generateURL: (absPath, line) =>
-      line ? `vscode://file/${absPath}:${line}` : `vscode://file/${absPath}`,
+    generateURL: (absPath, line) => {
+      const encoded = encodeURIComponent(absPath);
+      return line
+        ? `vscode://file/${encoded}:${line}`
+        : `vscode://file/${encoded}`;
+    },
   },
   goland: {
     key: "goland",
@@ -24,5 +28,12 @@ export function buildIDELink(
   ideConfig: IDEConfig,
 ): string {
   const absPath = sanitizePath(mapping.localPath, context.filePath);
-  return ideConfig.generateURL(absPath, context.lineNumber);
+  const url = ideConfig.generateURL(absPath, context.lineNumber);
+
+  // Guard against header injection / malformed URLs from crafted paths
+  if (/[\r\n]/.test(url)) {
+    throw new Error("Generated URL contains newline characters");
+  }
+
+  return url;
 }
