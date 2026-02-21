@@ -3,6 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tzachbaksis/github-to-code.git"
+  },
+  "homepage": "https://github.com/tzachbaksis/github-to-code",
+  "bugs": {
+    "url": "https://github.com/tzachbaksis/github-to-code/issues"
+  },
   "scripts": {
     "dev": "npm run build -- --watch",
     "build": "tsc --noEmit && BUILD_ENTRY=static vite build && BUILD_ENTRY=content vite build && BUILD_ENTRY=popup vite build && BUILD_ENTRY=service-worker vite build",
