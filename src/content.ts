@@ -49,7 +49,8 @@ const addIndicator = () => {
 chrome.storage.sync.get(['enabled'], (result) => {
   if (result.enabled !== false) {
     // Only add indicator on certain domains (optional)
-    if (window.location.hostname.includes('github.com')) {
+    const hostname = window.location.hostname;
+    if (hostname === 'github.com' || hostname.endsWith('.github.com')) {
       addIndicator();
     }
   }
