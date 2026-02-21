@@ -5,6 +5,10 @@
 
 A Chrome extension that adds **"Open in IDE"** buttons to GitHub, letting you jump straight from a file or line on GitHub into your local editor.
 
+<p align="center">
+  <img src="docs/demo.gif" alt="Demo" width="800">
+</p>
+
 ## Features
 
 - **PR "Files changed"** — buttons on file headers and line numbers in diffs
