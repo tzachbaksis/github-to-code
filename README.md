@@ -46,6 +46,10 @@ A Chrome extension that adds **"Open in IDE"** buttons to GitHub, letting you ju
 2. Add a repo mapping (e.g. `myorg/myrepo` → `/Users/me/code/myrepo`)
 3. Select your IDE
 
+<p align="center">
+  <img src="docs/popup-config.png" alt="Extension popup – configure repo mapping and IDE" width="400">
+</p>
+
 ## Development
 
 ```bash
