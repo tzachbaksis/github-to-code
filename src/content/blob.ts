@@ -56,6 +56,7 @@ export function initBlob(
   const { filePath } = parsed;
   const mapping = findMapping(settings.mappings, org, repo);
   if (!mapping) return;
+  if (!mapping.localPath) return;
 
   const ideConfig = IDE_CONFIGS[settings.ide];
   const context: GitHubFileContext = { org, repo, filePath };

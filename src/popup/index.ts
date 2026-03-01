@@ -55,6 +55,8 @@ function renderMappings(mappings: RepoMapping[]): void {
     mappingsList.removeChild(mappingsList.firstChild);
   }
 
+  let focusTarget: HTMLInputElement | null = null;
+
   for (let i = 0; i < mappings.length; i++) {
     const mapping = mappings[i];
     const row = document.createElement("div");
@@ -110,6 +112,15 @@ function renderMappings(mappings: RepoMapping[]): void {
     row.appendChild(fieldsCol);
     row.appendChild(removeBtn);
     mappingsList.appendChild(row);
+
+    // Auto-focus the first empty local path input
+    if (!focusTarget && mapping.pattern && !mapping.localPath) {
+      focusTarget = pathInput;
+    }
+  }
+
+  if (focusTarget) {
+    focusTarget.focus();
   }
 }
 

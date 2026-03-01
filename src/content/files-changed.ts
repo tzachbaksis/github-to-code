@@ -12,6 +12,7 @@ export function initFilesChanged(
 ): void {
   const mapping = findMapping(settings.mappings, org, repo);
   if (!mapping) return;
+  if (!mapping.localPath) return;
 
   const ideConfig = IDE_CONFIGS[settings.ide];
   const diffFiles = getDiffFiles();
