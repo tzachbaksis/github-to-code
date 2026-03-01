@@ -4,6 +4,11 @@ on:
   push:
     tags:
       - "v*"
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to release (e.g. 1.1.0)"
+        required: true
 
 jobs:
   release:
@@ -15,15 +20,29 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Resolve version
+        run: |
+          if [ -n "${{ inputs.version }}" ]; then
+            VERSION="${{ inputs.version }}"
+          else
+            VERSION="${GITHUB_REF_NAME#v}"
+          fi
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+          echo "TAG=v$VERSION" >> "$GITHUB_ENV"
+
+      - name: Create and push tag
+        if: ${{ inputs.version }}
+        run: |
+          git tag "$TAG"
+          git push origin "$TAG"
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
 
-      - name: Set version from tag
+      - name: Set version in project files
         run: |
-          VERSION="${GITHUB_REF_NAME#v}"
-          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
           npm pkg set version="$VERSION"
           sed -i "s/\"version\": \".*\"/\"version\": \"$VERSION\"/" public/manifest.json
 
@@ -36,10 +55,11 @@ jobs:
         run: npm test
 
       - name: Package extension
-        run: cd dist && zip -r ../github-to-code-${{ github.ref_name }}.zip .
+        run: cd dist && zip -r ../github-to-code-$TAG.zip .
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ env.TAG }}
           generate_release_notes: true
-          files: github-to-code-${{ github.ref_name }}.zip
+          files: github-to-code-${{ env.TAG }}.zip
