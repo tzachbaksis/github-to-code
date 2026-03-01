@@ -29,9 +29,17 @@ export const SELECTORS = {
     lineNumber: ".js-line-number",
     filePath: "#raw-url",
   },
+  repoHeader: {
+    /** Containers to scope the repo name link search */
+    containers: [
+      ".AppHeader-context",
+      "#repository-container-header",
+    ],
+  },
 } as const;
 
 export const GHC_BUTTON_CLASS = "ghc-ide-btn";
+export const GHC_ADD_MAPPING_CLASS = "ghc-add-mapping-btn";
 
 export const DEFAULT_SETTINGS: ExtensionSettings = {
   mappings: [],

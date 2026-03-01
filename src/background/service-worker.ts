@@ -6,3 +6,9 @@ chrome.runtime.onInstalled.addListener(async () => {
     await chrome.storage.sync.set(DEFAULT_SETTINGS);
   }
 });
+
+chrome.runtime.onMessage.addListener((message) => {
+  if (message.type === "openPopup") {
+    chrome.action.openPopup();
+  }
+});
